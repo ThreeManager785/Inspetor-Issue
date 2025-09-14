@@ -26,7 +26,7 @@ struct EventSearchView: View {
         Group {
             ScrollView {
                 HStack {
-                    Spacer(minLength: 0)
+//                    Spacer(minLength: 0)
                     LazyVStack(spacing: 10) {
                         ForEach([1, 2, 3, 4, 5, 6, 7, 8], id: \.self) { id in
                             Button(action: {
@@ -34,16 +34,17 @@ struct EventSearchView: View {
                                 presentingItemID = id
                             }, label: {
                                 Text("Lorem Ipsum Dolor Sit Amet #\(id)")
+                                    .font(.largeTitle)
                             })
                             .buttonStyle(.plain)
                             .matchedTransitionSource(id: id, in: customNamespace)
                             .matchedGeometryEffect(id: id, in: customNamespace)
                         }
                     }
-                    .frame(maxWidth: 300)
+//                    .frame(maxWidth: 300)
                 }
                 .padding(.horizontal)
-                Spacer(minLength: 0)
+//                Spacer(minLength: 0)
             }
             .navigationDestination(item: $presentingItemID) { id in
 #if os(iOS)
@@ -98,13 +99,13 @@ public extension View {
 struct EventDetailView: View {
     var id: Int
     var body: some View {
-        Text("\(id)")
+        Text("Item Detail #\(id)")
+            .font(.largeTitle)
     }
 }
 
 struct InspectorView: View {
     let filterKeysOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    
     var body: some View {
         Form {
             Section(content: {
@@ -116,10 +117,11 @@ struct InspectorView: View {
     }
 }
 
-
+// MARK: HereTheWorld
 // This is a weird method that can sometimes fix some issues happening on SwiftUI.
 // Would this be helpful?
 
+/*
 #if os(macOS)
 /// Hi, what happened?
 /// We NEED this to workaround a bug (maybe of SwiftUI?)
@@ -162,3 +164,4 @@ struct HereTheWorld<each T, V: View>: UIViewRepresentable {
     }
 }
 #endif
+*/
