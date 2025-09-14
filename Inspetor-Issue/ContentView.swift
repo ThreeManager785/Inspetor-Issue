@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-let oneToFifty = 1...50
-
-
 struct ContentView: View {
     var body: some View {
         NavigationStack {
@@ -18,8 +15,6 @@ struct ContentView: View {
     }
 }
 
-
-//MARK: EventSearchView
 struct EventSearchView: View {
     @State var searchedText = ""
     @State var showInspector = false
@@ -29,9 +24,8 @@ struct EventSearchView: View {
         Group {
             ScrollView {
                 HStack {
-//                    Spacer(minLength: 0)
                     LazyVStack(spacing: 10) {
-                        ForEach(oneToFifty, id: \.self) { id in
+                        ForEach(1...50, id: \.self) { id in
                             Button(action: {
                                 showInspector = false
                                 presentingItemID = id
@@ -49,10 +43,8 @@ struct EventSearchView: View {
                             .matchedGeometryEffect(id: id, in: customNamespace)
                         }
                     }
-//                    .frame(maxWidth: 300)
                 }
                 .padding(.horizontal)
-//                Spacer(minLength: 0)
             }
             .navigationDestination(item: $presentingItemID) { id in
 #if os(iOS)
@@ -78,7 +70,6 @@ struct EventSearchView: View {
                 })
             }
         }
-//
         .withSystemBackground()
         .inspector(isPresented: $showInspector) {
             InspectorView()
@@ -86,24 +77,9 @@ struct EventSearchView: View {
                 .presentationDragIndicator(.visible)
                 .presentationBackgroundInteraction(.enabled)
         }
-        .withSystemBackground() // This modifier MUST be placed BOTH before
-                                // and after `inspector` to make it work as expected
+        .withSystemBackground() // Sidebar (not in this project) may not have the background without two background. Please remove if you wanted to.
     }
 }
-
-
-public extension View {
-    @ViewBuilder
-    func withSystemBackground() -> some View {
-#if os(iOS)
-        self
-            .background(Color(.systemGroupedBackground))
-#else
-        self
-#endif
-    }
-}
-
 
 struct EventDetailView: View {
     var id: Int
@@ -125,8 +101,8 @@ struct InspectorView: View {
     var body: some View {
         Form {
             Section(content: {
-                // Inspector items don't have matching relationship with the items in the `LazyVStack`. `oneToFifty` is for demonstation purpose only.
-                ForEach(oneToFifty, id: \.self) { id in
+                // Inspector items don't have matching relationship with the items in the `LazyVStack`. `1...50` is for demonstation purpose only.
+                ForEach(1...50, id: \.self) { id in
                     ZStack {
                         Rectangle()
                             .foregroundStyle(colorForNumber(50-id+1))
@@ -140,14 +116,23 @@ struct InspectorView: View {
     }
 }
 
+public extension View {
+    @ViewBuilder
+    func withSystemBackground() -> some View {
+#if os(iOS)
+        self
+            .background(Color(.systemGroupedBackground))
+#else
+        self
+#endif
+    }
+}
 
 // Demonstration purpose only: to emphasize the difference between list items.
 // This is not important at all.
 func colorForNumber(_ n: Int) -> Color {
     precondition((1...50).contains(n))
-    
     let count = 50
-    // 交错分布：把索引映射成一个“二分交错”的序列
     func interleave(_ i: Int) -> Int {
         var x = i - 1
         var result = 0
