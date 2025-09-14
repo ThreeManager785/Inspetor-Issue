@@ -120,7 +120,7 @@ struct InspectorView: View {
                 ForEach(oneToFifty, id: \.self) { id in
                     ZStack {
                         Rectangle()
-                            .foregroundStyle(colorForNumber(50-id))
+                            .foregroundStyle(colorForNumber(50-id+1))
                             .opacity(0.4)
                         Text("Item #\(id)")
                             .font(.largeTitle)
