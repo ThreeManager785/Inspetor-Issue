@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let oneToFifty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+let oneToFifty = 1...50
 
 
 struct ContentView: View {
@@ -36,8 +36,13 @@ struct EventSearchView: View {
                                 showInspector = false
                                 presentingItemID = id
                             }, label: {
-                                Text("Lorem Ipsum Dolor Sit Amet #\(id)")
-                                    .font(.largeTitle)
+                                ZStack {
+                                    Rectangle()
+                                        .foregroundStyle(colorForNumber(id))
+                                        .opacity(0.4)
+                                    Text("Lorem Ipsum Dolor Sit Amet #\(id)")
+                                        .font(.largeTitle)
+                                }
                             })
                             .buttonStyle(.bordered)
                             .matchedTransitionSource(id: id, in: customNamespace)
@@ -111,10 +116,45 @@ struct InspectorView: View {
     var body: some View {
         Form {
             Section(content: {
-                ForEach(oneToFifty, id: \.self) { key in
-                   Text("\(key)")
+                // Inspector items don't have matching relationship with the items in the `LazyVStack`. `oneToFifty` is for demonstation purpose only.
+                ForEach(oneToFifty, id: \.self) { id in
+                    ZStack {
+                        Rectangle()
+                            .foregroundStyle(colorForNumber(50-id))
+                            .opacity(0.4)
+                        Text("Item #\(id)")
+                            .font(.largeTitle)
+                    }
                 }
             })
         }
     }
+}
+
+
+// Demonstration purpose only: to emphasize the difference between list items.
+func colorForNumber(_ n: Int) -> Color {
+    precondition((1...50).contains(n))
+    
+    let count = 50
+    // 交错分布：把索引映射成一个“二分交错”的序列
+    func interleave(_ i: Int) -> Int {
+        var x = i - 1
+        var result = 0
+        var bit = 1
+        var mask = count / 2
+        while mask > 0 {
+            if (x & 1) != 0 {
+                result += mask
+            }
+            x >>= 1
+            mask >>= 1
+            bit <<= 1
+        }
+        return result
+    }
+    
+    let permutedIndex = interleave(n)
+    let hue = Double(permutedIndex) / Double(count)
+    return Color(hue: hue, saturation: 0.8, brightness: 0.9)
 }
