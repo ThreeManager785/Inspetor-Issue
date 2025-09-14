@@ -107,8 +107,16 @@ public extension View {
 struct EventDetailView: View {
     var id: Int
     var body: some View {
-        Text("Item Detail #\(id)")
-            .font(.largeTitle)
+        ZStack {
+            // Demonstation Purpose Only. The image can be removed.
+            Image("Demo-picture")
+                .resizable()
+                .scaledToFill()
+                .opacity(0.4)
+            Text("Item Detail #\(id)")
+                .font(.largeTitle)
+        }
+        
     }
 }
 
