@@ -63,7 +63,10 @@ struct EventSearchView: View {
 #endif
             }
         }
-        .searchable(text: $searchedText, prompt: "Placeholder")
+        .onDisappear {
+            showInspector = false
+        }
+        .searchable(text: $searchedText, prompt: "This Search Does Nothing")
         .navigationTitle("Event")
         .navigationSubtitle("Subtitle")
         .toolbar {
@@ -71,13 +74,11 @@ struct EventSearchView: View {
                 Button(action: {
                     showInspector = true
                 }, label: {
-                    Image(systemName: "exclamationmark")
+                    Image(systemName: "sidebar.trailing")
                 })
             }
         }
-        .onDisappear {
-            showInspector = false
-        }
+//
         .withSystemBackground()
         .inspector(isPresented: $showInspector) {
             InspectorView()
