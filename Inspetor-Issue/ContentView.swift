@@ -39,7 +39,7 @@ struct EventSearchView: View {
                                 Text("Lorem Ipsum Dolor Sit Amet #\(id)")
                                     .font(.largeTitle)
                             })
-                            .buttonStyle(.plain)
+                            .buttonStyle(.bordered)
                             .matchedTransitionSource(id: id, in: customNamespace)
                             .matchedGeometryEffect(id: id, in: customNamespace)
                         }
