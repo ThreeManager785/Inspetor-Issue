@@ -133,6 +133,7 @@ struct InspectorView: View {
 
 
 // Demonstration purpose only: to emphasize the difference between list items.
+// This is not important at all.
 func colorForNumber(_ n: Int) -> Color {
     precondition((1...50).contains(n))
     
